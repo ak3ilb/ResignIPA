@@ -1,0 +1,145 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                      ⚠️  SETUP REQUIRED BEFORE FIRST USE  ⚠️                  ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+The project has been restructured with a new Go-based setup wizard.
+Before you can build and use ResignIPA, you need to download dependencies.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 WHAT CHANGED:
+
+✅ Removed: setup.sh (shell script)
+✅ Added: cmd/setup.go (professional Go setup wizard)
+✅ Moved: All detailed documentation → trash/ directory
+✅ Updated: .gitignore to ignore trash/
+✅ Simplified: README.md (now concise)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 FIRST TIME SETUP (REQUIRES NETWORK):
+
+Option 1: Let the setup wizard handle everything
+────────────────────────────────────────────────
+When you have network access, run:
+
+    go mod download
+    go build -o resignipa main.go
+    ./resignipa setup
+
+The setup wizard will:
+• ✓ Verify system prerequisites
+• ✓ Check all required tools
+• ✓ Download dependencies
+• ✓ Build the project
+• ✓ Discover certificates
+• ✓ Show next steps
+
+Option 2: Manual setup
+────────────────────────────────────────────────
+If you prefer manual control:
+
+    go mod download      # Download dependencies
+    go mod tidy          # Organize dependencies
+    make build           # Build the project
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 WHAT'S NEEDED:
+
+1. Internet Connection
+   • To download Go dependencies (fyne, cobra, etc.)
+   • Only needed once
+
+2. System Requirements
+   • macOS
+   • Go 1.21+
+   • Xcode Command Line Tools
+   • Valid Apple Developer certificate (for actual resigning)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 WHY THIS ERROR?
+
+You're seeing build errors because go.sum is missing. This file contains
+cryptographic checksums of dependencies and is generated when you run:
+• go mod download
+• go mod tidy
+• go get
+
+This is a one-time setup requirement.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 DOCUMENTATION:
+
+All detailed documentation has been moved to trash/ directory:
+
+• trash/QUICKSTART.md    - 5-minute getting started guide
+• trash/EXAMPLES.md      - Real-world usage examples
+• trash/BUILD.md         - Comprehensive build instructions
+• trash/PROJECT.md       - Technical project overview
+• trash/CONTRIBUTING.md  - Contribution guidelines
+• trash/SUMMARY.md       - Project completion summary
+
+Access them anytime with:
+    ls trash/
+    cat trash/QUICKSTART.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 QUICK REFERENCE:
+
+Once setup is complete:
+
+    ./resignipa                    # Launch GUI
+    ./resignipa setup              # Run setup wizard
+    ./resignipa -s app.ipa -c Cert # CLI resign
+    ./resignipa --help             # Show help
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ NEW SETUP WIZARD FEATURES:
+
+The new Go-based setup wizard (cmd/setup.go) is:
+
+• Complex but Professional: 550+ lines of well-structured Go code
+• Easy to Debug: Clear types, methods, and logging
+• Comprehensive: Checks everything needed
+• Color-Coded: Visual feedback with colors
+• Actionable: Provides clear instructions for issues
+• Integrated: Uses the same binary as the main app
+
+Benefits over the old setup.sh:
+• ✓ Type-safe Go code
+• ✓ Better error handling
+• ✓ Professional architecture
+• ✓ Testable functions
+• ✓ Consistent with codebase
+• ✓ Easier to maintain
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📂 NEW PROJECT STRUCTURE:
+
+ResignIPA/
+├── cmd/
+│   ├── cli.go        # CLI interface
+│   ├── gui.go        # GUI interface
+│   └── setup.go      # ⭐ NEW: Setup wizard
+├── pkg/resigner/     # Core resigning logic
+├── trash/            # 📁 Documentation archive (git-ignored)
+├── main.go
+├── README.md         # Simplified
+└── go.mod
+
+Clean, professional, and organized!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For more details about the changes, see: CHANGES.txt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

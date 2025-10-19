@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Application Identifier -->
+	<key>application-identifier</key>
+	<string>TEAM_ID.com.example.app</string>
+	
+	<!-- Team Identifier -->
+	<key>com.apple.developer.team-identifier</key>
+	<string>TEAM_ID</string>
+	
+	<!-- Allow Debugging (Development only) -->
+	<key>get-task-allow</key>
+	<true/>
+	
+	<!-- Keychain Access Groups -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>TEAM_ID.com.example.app</string>
+	</array>
+	
+	<!-- App Groups (Optional) -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.example.app</string>
+	</array>
+	
+	<!-- Push Notifications (Optional) -->
+	<key>aps-environment</key>
+	<string>development</string>
+	
+	<!-- Associated Domains (Optional) -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:example.com</string>
+	</array>
+	
+	<!-- In-App Purchase (Optional) -->
+	<key>com.apple.developer.in-app-payments</key>
+	<array>
+		<string>merchant.com.example.app</string>
+	</array>
+	
+	<!-- HealthKit (Optional) -->
+	<!-- <key>com.apple.developer.healthkit</key>
+	<true/>
+	<key>com.apple.developer.healthkit.access</key>
+	<array/>
+	-->
+	
+	<!-- HomeKit (Optional) -->
+	<!-- <key>com.apple.developer.homekit</key>
+	<true/>
+	-->
+	
+	<!-- Siri (Optional) -->
+	<!-- <key>com.apple.developer.siri</key>
+	<true/>
+	-->
+	
+	<!-- Network Extensions (Optional) -->
+	<!-- <key>com.apple.developer.networking.vpn.api</key>
+	<array>
+		<string>allow-vpn</string>
+	</array>
+	-->
+	
+	<!-- Background Modes (Optional) -->
+	<!-- These are usually in Info.plist, not entitlements -->
+	
+	<!-- Beta Reports (Optional) -->
+	<key>beta-reports-active</key>
+	<true/>
+</dict>
+</plist>
+

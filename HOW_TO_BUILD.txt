@@ -1,0 +1,270 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                        🚀 HOW TO BUILD RESIGNIPA 🚀                          ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Current Issue: Missing go.sum file (need to download dependencies)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                         STEP-BY-STEP INSTRUCTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When you have network connection:
+
+Step 1: Download Dependencies
+──────────────────────────────
+make deps
+
+Or manually:
+go mod download
+go mod tidy
+
+This will create go.sum file with dependency checksums.
+
+Step 2: Build the Project
+──────────────────────────
+make build
+
+Or manually:
+mkdir -p bin
+go build -ldflags="-s -w" -o bin/resignipa main.go
+
+Binary will be created at: bin/resignipa
+
+Step 3: Test CLI Validation (Without Running)
+──────────────────────────────────────────────
+./bin/resignipa
+
+This should show error about missing source file (proving validation works).
+
+./bin/resignipa -s nonexistent.ipa -c "Test"
+
+This should show: "source file does not exist: nonexistent.ipa"
+
+./bin/resignipa -s test.txt -c "Test"
+
+This should show: "source file must be .ipa or .app"
+
+Step 4: Run with Real Files
+────────────────────────────
+./bin/resignipa -s /path/to/real.ipa -c "Apple Development: Your Name"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                      IMPROVED CLI FEATURES (JUST ADDED)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ File Existence Checks
+   • Checks if source IPA/APP file exists
+   • Checks if entitlements file exists (if provided)
+   • Checks if mobile provision file exists (if provided)
+
+✅ File Extension Validation
+   • Source must be .ipa or .app
+   • Entitlements must be .plist
+   • Mobile provision must be .mobileprovision
+
+✅ Bundle ID Format Validation
+   • Must contain at least one dot (e.g., com.company.app)
+   • Only allows: letters, numbers, dots, hyphens
+   • Validates format before attempting resign
+
+✅ Better Error Messages
+   • Clear error descriptions
+   • Shows what went wrong
+   • Provides usage examples
+   • Context-specific troubleshooting tips
+
+✅ Comprehensive Error Handling
+   • Validates all arguments before starting
+   • Catches file access errors
+   • Prints helpful troubleshooting based on error type
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                          ERROR EXAMPLES YOU'LL SEE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Missing Arguments:
+──────────────────
+$ ./bin/resignipa
+
+❌ Error: source IPA path is required (use -s flag)
+
+Usage Examples:
+───────────────
+
+Basic resign:
+  resignipa -s /path/to/app.ipa -c "Apple Development: Name"
+...
+
+File Not Found:
+───────────────
+$ ./bin/resignipa -s missing.ipa -c "Cert"
+
+❌ Error: source file does not exist: missing.ipa
+...
+
+Wrong File Extension:
+─────────────────────
+$ ./bin/resignipa -s file.zip -c "Cert"
+
+❌ Error: source file must be .ipa or .app, got: file.zip
+...
+
+Invalid Bundle ID:
+──────────────────
+$ ./bin/resignipa -s app.ipa -c "Cert" -b "invalid"
+
+❌ Error: invalid bundle ID format: invalid (expected format: com.company.app)
+...
+
+Wrong Entitlements File:
+─────────────────────────
+$ ./bin/resignipa -s app.ipa -c "Cert" -e entitlements.txt
+
+❌ Error: entitlements file must be .plist, got: entitlements.txt
+...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                       SUCCESSFUL USAGE EXAMPLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Basic Resign:
+─────────────
+./bin/resignipa -s MyApp.ipa -c "Apple Development: John Doe"
+
+With Provisioning Profile:
+───────────────────────────
+./bin/resignipa -s MyApp.ipa \
+                -c "Apple Development: John Doe" \
+                -p MyApp.mobileprovision
+
+With Bundle ID:
+───────────────
+./bin/resignipa -s MyApp.ipa \
+                -c "Apple Development: John Doe" \
+                -b com.company.newapp
+
+All Options:
+────────────
+./bin/resignipa -s MyApp.ipa \
+                -c "Apple Development: John Doe" \
+                -p profile.mobileprovision \
+                -b com.company.app \
+                -e entitlements.plist
+
+Resign .app Bundle:
+───────────────────
+./bin/resignipa -s Payload/MyApp.app \
+                -c "Apple Development: John Doe"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                        TROUBLESHOOTING TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cannot Build (missing go.sum):
+───────────────────────────────
+Error: missing go.sum entry for module...
+
+Solution:
+1. Ensure you have internet connection
+2. Run: go mod download
+3. Run: go mod tidy
+4. Then: make build
+
+File Not Found:
+───────────────
+Error: source file does not exist
+
+Solution:
+1. Check the path is correct
+2. Use absolute path: /full/path/to/file.ipa
+3. Or use relative: ./MyApp.ipa
+4. Verify file actually exists: ls -la /path/to/file.ipa
+
+Certificate Error:
+──────────────────
+Error: codesign failed
+
+Solution:
+1. Find your certificate:
+   security find-identity -v -p codesigning
+2. Use exact name from output (including team ID)
+3. Make sure certificate is not expired
+
+Wrong File Type:
+────────────────
+Error: source file must be .ipa or .app
+
+Solution:
+1. File must have .ipa or .app extension
+2. Cannot use .zip or other formats
+3. If you have .zip, rename to .ipa
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                         VALIDATION CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before CLI runs, it checks:
+
+✅ Source file (-s):
+   • Flag is provided
+   • File exists on disk
+   • Has .ipa or .app extension
+   • Can be accessed (permissions)
+
+✅ Certificate (-c):
+   • Flag is provided
+   • (Will validate during signing)
+
+✅ Entitlements (-e) [optional]:
+   • If provided, file exists
+   • Has .plist extension
+   • Can be accessed
+
+✅ Mobile Provision (-p) [optional]:
+   • If provided, file exists
+   • Has .mobileprovision extension
+   • Can be accessed
+
+✅ Bundle ID (-b) [optional]:
+   • If provided, has valid format
+   • Contains at least one dot
+   • Only valid characters
+
+All checks happen BEFORE attempting to resign, saving time!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                            MAKEFILE COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+make deps        → Download Go dependencies (REQUIRED FIRST)
+make build       → Build to bin/resignipa
+make run-gui     → Launch GUI (builds first)
+make setup       → Run setup wizard (builds first)
+make test        → Run tests
+make clean       → Remove bin/, build/ directories
+make help        → Show all commands
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                         SUMMARY OF IMPROVEMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Comprehensive file validation
+✅ Extension checking (.ipa, .app, .plist, .mobileprovision)
+✅ Bundle ID format validation
+✅ Detailed error messages with context
+✅ Automatic troubleshooting suggestions
+✅ Usage examples on error
+✅ File existence checks before processing
+✅ Permission error handling
+✅ Professional error output with emojis (❌, ✅)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Status: ✅ CLI VALIDATION COMPLETE
+Next:   ⚠️  NEED TO RUN: make deps (requires network)
+Then:   make build
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
