@@ -267,4 +267,3 @@ func BenchmarkFindComponents(b *testing.B) {
 		findComponents(appDir)
 	}
 }
-

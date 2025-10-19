@@ -25,6 +25,10 @@ Resigned/
 # Documentation archive
 trash/
 
+# Images (keep GUI screenshot)
+!images/gui-screenshot.png
+bin/*
+
 # IDE
 .idea/
 .vscode/

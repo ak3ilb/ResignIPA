@@ -12,11 +12,11 @@ import (
 
 // Config holds the configuration for resigning an IPA
 type Config struct {
-	SourceIPA     string
-	Certificate   string
-	Entitlements  string
+	SourceIPA       string
+	Certificate     string
+	Entitlements    string
 	MobileProvision string
-	BundleID      string
+	BundleID        string
 }
 
 // ProgressCallback is called during the resign process
@@ -308,7 +308,7 @@ func (r *Resigner) codesign(component, entitlementsPath string) error {
 		"-s", r.config.Certificate,
 		"--entitlements", entitlementsPath,
 		component)
-	
+
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("codesign failed: %s - %w", string(output), err)
@@ -541,4 +541,3 @@ func findComponents(appPath string) ([]string, error) {
 	// Return non-.app components first, then .app components
 	return append(nonAppComponents, appComponents...), nil
 }
-

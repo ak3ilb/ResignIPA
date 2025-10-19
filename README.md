@@ -2,6 +2,10 @@
 
 iOS IPA Resigning Tool with GUI & CLI
 
+![ResignIPA GUI](images/gui-screenshot.png)
+
+*Professional, compact interface for iOS IPA resigning - Clean white design with light blue accents*
+
 ## Quick Start
 
 ### Setup & Build
@@ -19,29 +23,40 @@ go build -ldflags="-s -w" -o bin/resignipa main.go
 
 ### Usage
 
-**GUI Mode:**
+**🎨 GUI Mode (Recommended for beginners):**
 ```bash
+# Launch the user-friendly GUI interface
 ./bin/resignipa
 # Or use make
 make run-gui
 ```
 
-**CLI Mode:**
+The GUI provides:
+- ✅ **Easy file selection** with Browse buttons
+- ✅ **Real-time validation** with helpful error messages  
+- ✅ **Progress tracking** with emoji indicators
+- ✅ **Field help** explaining what each option does
+- ✅ **One-click resigning** with automatic validation
+
+**💻 CLI Mode (For advanced users):**
 ```bash
-# Basic
+# Basic resign (minimal options)
 ./bin/resignipa -s /path/to/app.ipa -c "Apple Development: Name"
 
-# With provisioning profile
-./bin/resignipa -s app.ipa -c "Cert" -p profile.mobileprovision
+# With provisioning profile (recommended)
+./bin/resignipa -s app.ipa -c "Apple Development: Name" -p profile.mobileprovision
 
-# With bundle ID
-./bin/resignipa -s app.ipa -c "Cert" -b com.new.bundleid
+# With new bundle ID (for multiple versions)
+./bin/resignipa -s app.ipa -c "Apple Development: Name" -b com.company.newapp
 
-# All options
-./bin/resignipa -s app.ipa -c "Cert" -p profile.mobileprovision -b com.app.id -e entitlements.plist
+# Full options (maximum control)
+./bin/resignipa -s app.ipa -c "Apple Development: Name" -p profile.mobileprovision -b com.app.id -e entitlements.plist
+
+# Resign .app bundle (not IPA)
+./bin/resignipa -s MyApp.app -c "Apple Development: Name"
 ```
 
-**Setup Command:**
+**🔧 Setup Command:**
 ```bash
 # Verify prerequisites and setup environment
 ./bin/resignipa setup
@@ -51,11 +66,14 @@ make setup
 
 ## Features
 
-- ✨ Dual Mode: GUI and CLI from single binary
-- 🎨 Docker-themed dark interface
-- 🔒 Comprehensive panic recovery
-- 🚀 Native Go performance
-- 📦 Automatic component signing
+- ✨ **Dual Mode**: User-friendly GUI + powerful CLI from single binary
+- 🎨 **Clean Interface**: White background with light blue accents
+- 🔒 **Smart Validation**: File existence, format, and permission checks
+- 🚀 **Real-time Progress**: Live updates with emoji indicators
+- 📦 **Auto-discovery**: Automatically finds and signs all app components
+- 💡 **Helpful Guidance**: Built-in tips and troubleshooting
+- 🛡️ **Error Prevention**: Validates inputs before processing
+- 📁 **Easy File Selection**: Browse buttons for all file inputs
 
 ## Requirements
 
@@ -66,16 +84,26 @@ make setup
 
 ## Commands
 
+**GUI Commands:**
 ```bash
-./bin/resignipa               # Launch GUI
-./bin/resignipa setup         # Run setup wizard
-./bin/resignipa resign ...    # Resign IPA (CLI)
-./bin/resignipa --help        # Show help
+./bin/resignipa               # Launch user-friendly GUI interface
+make run-gui                  # Launch GUI (builds first if needed)
+```
 
-# Or use Makefile
-make run-gui      # Launch GUI
-make setup        # Run setup wizard
-make run-cli      # Show CLI usage
+**CLI Commands:**
+```bash
+./bin/resignipa -s file.ipa -c "Certificate"    # Basic resign
+./bin/resignipa resign ...                      # Explicit resign command
+./bin/resignipa --help                          # Show detailed help
+make run-cli                                     # Show CLI usage examples
+```
+
+**Setup & Maintenance:**
+```bash
+./bin/resignipa setup         # Run setup wizard
+make setup                    # Run setup wizard (builds first)
+make build                    # Build binary
+make clean                    # Clean build artifacts
 ```
 
 ## Build
@@ -90,11 +118,22 @@ make clean      # Clean artifacts (removes bin/ and build/)
 
 ## Finding Certificates
 
+**In GUI:** Use the Browse button next to Certificate field to see available certificates
+
+**In CLI:** Run this command to find your certificate:
 ```bash
 security find-identity -v -p codesigning
 ```
 
-Use the name in quotes as the `-c` parameter.
+Example output:
+```
+1) 1234567890ABC "Apple Development: John Doe (TEAM123456)"
+2) ABCDEF1234567 "Apple Distribution: Company Name (TEAM789012)"
+```
+
+Use the **exact text in quotes** as the `-c` parameter:
+- GUI: Paste into Certificate field
+- CLI: `./bin/resignipa -s app.ipa -c "Apple Development: John Doe (TEAM123456)"`
 
 ## License
 
@@ -102,16 +141,31 @@ MIT License - See LICENSE file
 
 Based on original XReSign by xndrs (2017)
 
-## Documentation
+## User-Friendly Features
 
-All detailed documentation has been archived in the `trash/` directory for a cleaner project structure.
-For comprehensive guides, check the trash directory:
+### 🎨 GUI Interface
+- **Clean white design** with light blue accents
+- **Browse buttons** for easy file selection
+- **Real-time validation** with helpful error messages
+- **Progress tracking** with emoji indicators (🚀📦✍️📁✅)
+- **Field help** explaining each option
+- **Smart error handling** with troubleshooting tips
 
-- `trash/QUICKSTART.md` - 5-minute guide
-- `trash/EXAMPLES.md` - Usage examples
-- `trash/BUILD.md` - Build instructions
-- `trash/PROJECT.md` - Technical details
-- `trash/CONTRIBUTING.md` - Contribution guide
+### 💻 CLI Interface  
+- **Comprehensive validation** before processing
+- **File existence checks** for all inputs
+- **Extension validation** (.ipa, .app, .plist, .mobileprovision)
+- **Bundle ID format checking** (com.company.app)
+- **Detailed error messages** with usage examples
+- **Context-aware troubleshooting** based on error type
+
+### 🔧 Enhanced Validation
+- ✅ Checks if source IPA/APP file exists
+- ✅ Validates file extensions (.ipa, .app only)
+- ✅ Verifies certificate name format
+- ✅ Checks optional files if provided
+- ✅ Validates bundle ID format
+- ✅ Provides clear error messages with solutions
 
 ---
 
